@@ -21,19 +21,21 @@ if __name__ == '__main__':
 	server_socket.listen(1)
 
 	while 1:
-		print 'Running...'
+		print 'Waiting on port '+str(sys.argv[1])+'...'
 		connection_socket, address = server_socket.accept()
-		sys.stdout.write("Connection to: {}".format(address))
+		sys.stdout.write("Connected to: " + str(address))
 		print '\n'
 		while 1:
 			in_message = connection_socket.recv(max_msg_len)
 			if in_message == "":
-				print 'Connection closed\n'
+				print '\nConnection ended by client'
 				break
-			sys.stdout.write(str(in_message))
+			sys.stdout.write(str(in_message)+'\n')
 			out_message = raw_input(handle)
 			if out_message == '\quit':
 				break
 			else:
-				connection_socket.send(str(handle + out_message).rstrip('\n'))
-	connection_socket.close()
+				t=str(handle + out_message).rstrip('\n')
+				msg=t[0:509]
+				connection_socket.send(msg)
+		connection_socket.close()

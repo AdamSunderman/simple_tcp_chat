@@ -1,0 +1,45 @@
+_______________________CHATCLIENT and CHATSERVE, Written by Adam Sunderman for OSU CS-372____________________________
+
+Credits: ChatClient program written with lots of help from "Beej's Guide To Network Programming"
+								http://beej.us/guide/bgnet/
+____________________________________________________________________________________________________________________
+Notes: chatserver and chatclient have been tested on OSU servers flip1, flip2 and flip3 using ports 30020-30022     
+	   as well as my home network using localhost and various other ports. 
+____________________________________________________________________________________________________________________
+chatserve:
+	chatserve is a python program that waits on a port number specified at launch for
+	incoming TCP connections from chatclient. Once a connection has been established 
+	chatserve will wait for the initial message from the client containing the users
+	'handle'. From here communication will continue with chatclient on a back and forth
+	basis until chatclient closes the connection or until the chatserve user types '\quit'.
+	Typing '\quit' will only close the current connection, chatserve will continue to wait 
+	on the specified port until the users presses control+c. chatserve will only accept and send
+	messages that are 500 charachters in length. Any excess charachters will be discarded.
+
+	To run chatserve:  ./chatserve [PORT]
+	         Example:  ./chatserve 30021  
+
+____________________________________________________________________________________________________________________
+chatclient.c:
+	chatclient is a c program that connects to a port number and hostname specified at launch 
+	for a TCP connections to chatserve. Once chatclient has begun the user will be instructed to enter
+	a 'handle' of 10 or less characters. This will repeat until the resriction is met. Once a 'handle'
+	has been established the connection will be made/attempted. If succesful the user will be prompted
+	to enter an initial message for chatserve and communications will commence. From here communication 
+	will continue with chatclient on a back and forth basis until chatserver closes the connection or 
+	until the chatclient user types '\quit'. Typing '\quit' will only close the current connection and 
+	close the chatclient program. chatclient will only accept and send messages that are 500 charachters 
+	in length. Any excess charachters will be discarded.
+
+	chatclient has been included with a makefile. There are a couple options for building and running. 
+	From within chatclients directory use the foolowing.
+
+	To only build chatclient:  make
+
+	      To run after build:  ./chatclient [HOST] [PORT]
+	                 Example:  ./chatclient localhost 30021
+
+	To build and run at once:  make run HOSTNAME=[HOST] PORT=[PORT]
+	                 Example:  make run HOSTNAME=localhost PORT=30021
+
+	To remove chatclient.exe:  make clean
